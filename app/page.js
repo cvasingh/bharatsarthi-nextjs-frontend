@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export default function Home() {
   return (
     <div className=" flex w-full flex-col p-8">
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center mb-20">
         <Avatar className="size-20">
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>
