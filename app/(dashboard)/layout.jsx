@@ -9,8 +9,8 @@ const DashboardLayout = ({ children }) => {
         <AppSidebar />
         <div className="w-full">
           <Navbar />
-          <div className="mx-auto max-w-screen-2xl w-full h-full">
-            <main className="h-full py-8 px-6 flex flex-col">{children}</main>
+          <div className="mx-auto py-8 px-6 max-w-screen-2xl w-full h-full">
+            {children}
           </div>
         </div>
       </SidebarProvider>
