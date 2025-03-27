@@ -48,7 +48,7 @@ export const EditForm = ({ user }) => {
     <>
       <div className="border rounded-2xl mx-auto shadow-md p-4 w-[156px] mb-6">
         <QRCode
-          value={`https://bharatsarthi-nextjs-frontend.vercel.app/preview/${user?.["$id"]}`}
+          value={`${process.env.NEXT_PUBLIC_APP_URL}/preview/${user?.["$id"]}`}
           size="124"
         />
         <p className="text-xs font-bold mt-2 text-center">Your QR Code</p>
