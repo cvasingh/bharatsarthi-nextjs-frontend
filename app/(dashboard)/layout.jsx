@@ -1,20 +1,19 @@
 import AppSidebar from "@/components/app-sidebar";
 import { Navbar } from "@/components/Navbar";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 const DashboardLayout = ({ children }) => {
   return (
     <div className="min-h-screen">
-      <div className="flex w-full h-full">
+      <SidebarProvider>
         <AppSidebar />
-        <SidebarTrigger />
-        <div className="lg:pl-[264px] w-full">
-          <div className="mx-auto max-w-screen-2xl h-full">
-            <Navbar />
+        <div className="w-full">
+          <Navbar />
+          <div className="mx-auto max-w-screen-2xl w-full h-full">
             <main className="h-full py-8 px-6 flex flex-col">{children}</main>
           </div>
         </div>
-      </div>
+      </SidebarProvider>
     </div>
   );
 };

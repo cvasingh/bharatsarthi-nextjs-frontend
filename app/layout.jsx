@@ -2,7 +2,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/components/query-provider";
 import { Toaster } from "sonner";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +26,7 @@ export default function RootLayout({ children }) {
       >
         <QueryProvider>
           <Toaster />
-          <SidebarProvider>{children}</SidebarProvider>
+          {children}
         </QueryProvider>
       </body>
     </html>

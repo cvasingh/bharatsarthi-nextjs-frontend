@@ -2,6 +2,7 @@
 
 import { UserButton } from "@/features/auth/components/user-button";
 import { usePathname } from "next/navigation";
+import { SidebarTrigger } from "./ui/sidebar";
 
 const pathnameMap = {
   tasks: {
@@ -27,10 +28,8 @@ export const Navbar = () => {
 
   return (
     <nav className="pt-4 px-6 flex items-center justify-between">
-      <div className="flex-col hidden lg:flex">
-        <h1 className="text-2xl font-semibold">{title}</h1>
-        <p className="text-muted-foreground">{description}</p>
-      </div>
+      <SidebarTrigger />
+
       <UserButton />
     </nav>
   );
