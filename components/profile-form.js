@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
 
 // Define validation schema with Zod
 const formSchema = z.object({
@@ -34,23 +35,37 @@ const formSchema = z.object({
     .min(5, { message: "Postal code must be at least 5 digits." }),
 });
 
-export function ProfileForm() {
+export default function ProfileForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      fullName: "",
-      email: "",
-      phoneNumber: "",
-      location: "",
-      postalCode: "",
+      name: "Shiva",
+      fullName: "Shiva Singh",
+      email: "shiva.singh@gmail.com",
+      phoneNumber: "9876543210",
+      location: "Gurugram",
+      postalCode: "122002",
     },
   });
 
   // Submit handler
-  function onSubmit(values) {
-    // Handle the submitted form values
-    console.log(values);
+  async function onSubmit(values) {
+    try {
+      const response = await axios.post("/api/auth/update-profile", values, {
+        withCredentials: true, // Ensures cookies (session) are sent
+      });
+
+      if (response.data.success) {
+        console.log("Profile updated successfully:", response.data);
+        alert("Profile updated successfully!");
+      } else {
+        console.error("Error updating profile:", response.data.error);
+        alert("Failed to update profile.");
+      }
+    } catch (error) {
+      console.error("Request failed:", error);
+      alert("An error occurred while updating the profile.");
+    }
   }
 
   return (
@@ -143,9 +158,7 @@ export function ProfileForm() {
           )}
         />
 
-        <div className="col-span-2 flex justify-center">
-          <Button type="submit">Save Changes</Button>
-        </div>
+        <Button type="submit">Save Changes</Button>
       </form>
     </Form>
   );
