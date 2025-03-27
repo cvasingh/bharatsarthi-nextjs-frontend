@@ -1,4 +1,4 @@
-import ProfileForm from "@/components/profile-form";
+// import ProfileForm from "@/components/profile-form";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
           </span>
         </div>
       </div>
-      <ProfileForm />
+      {/* <ProfileForm /> */}
     </div>
   );
 }
