@@ -13,6 +13,7 @@ export const useRegister = () => {
       const response = await client.api.auth.register["$post"]({ json });
 
       if (!response.ok) throw new Error("Failed to register");
+      const response2 = await client.api.auth.addUserDetails["$post"]({ json });
 
       return response.json();
     },

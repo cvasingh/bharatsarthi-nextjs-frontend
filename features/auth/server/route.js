@@ -55,32 +55,22 @@ const app = new Hono()
     return c.json({ success: true });
   })
   .post(
-    "/update-profile",
+    "/addUserDetails",
     sessionMiddleware,
     zValidator("json", profileSchema),
     async (c) => {
       const { name, fullName, email, phoneNumber, location, postalCode } =
         c.req.valid("json");
+      const databases = c.get("databases");
       const user = c.get("user");
 
       if (!user) {
         return c.json({ error: "Unauthorized" }, 401);
       }
 
-      const { account, databases } = await createAdminClient();
-      await account.updateEmail(user.$id, email);
-      await account.updatePrefs(user.$id, {
-        name,
-        fullName,
-        phoneNumber,
-        location,
-        postalCode,
-      });
-
-      // Store user profile data in a database collection
       await databases.createDocument(
         process.env.APPWRITE_DATABASE_ID,
-        process.env.NEXT_PUBLIC_APPWRITE_USER_DETAILS,
+        process.env.NEXT_PUBLIC_APPWRITE_USER_DETAILS_ID,
         user.$id,
         {
           name,
@@ -94,6 +84,49 @@ const app = new Hono()
 
       return c.json({ success: true });
     }
-  );
+  )
+  .get("/getUserDetails/:id", sessionMiddleware, async (c) => {
+    const { id } = c.req.param();
+    const user = c.get("user");
+
+    if (!id) {
+      return c.json({ error: "User ID is required" }, 400);
+    }
+
+    if (!user) {
+      return c.json({ error: "Unauthorized" }, 401);
+    }
+
+    const { databases } = await createAdminClient();
+
+    if (!databases) {
+      console.error("Databases object is undefined");
+      return c.json(
+        { error: "Appwrite client is not properly initialized" },
+        500
+      );
+    }
+
+    try {
+      // Fetch user profile data from the database using the user ID
+      const userProfile = await databases.getDocument(
+        process.env.APPWRITE_DATABASE_ID,
+        process.env.NEXT_PUBLIC_APPWRITE_USER_DETAILS_ID,
+        id
+      );
+
+      if (userProfile) {
+        return c.json({ username: userProfile.name });
+      } else {
+        return c.json({ error: "User not found" }, 404);
+      }
+    } catch (error) {
+      console.error(error);
+      return c.json(
+        { error: "An error occurred while fetching user data" },
+        500
+      );
+    }
+  });
 
 export default app;

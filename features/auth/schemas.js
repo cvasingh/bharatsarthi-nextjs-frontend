@@ -13,9 +13,9 @@ export const registerSchema = z.object({
 
 export const profileSchema = z.object({
   name: z.string().trim().min(1, "Required"),
-  fullName: z.string().trim().min(1, "Required"),
+  fullName: z.string().trim().min(1, "Required").optional(),
   email: z.string().email(),
-  phoneNumber: z.string().trim().min(1, "Required"),
-  location: z.string().trim().min(1, "Required"),
-  postalCode: z.string().trim().min(1, "Required"),
+  phoneNumber: z.string().trim().min(1, "Required").optional(),
+  location: z.string().trim().min(1, "Required").optional(),
+  postalCode: z.string().trim().min(1, "Required").optional(),
 });
