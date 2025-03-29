@@ -1,7 +1,6 @@
 "use client";
 
 import { useCurrent } from "../api/use-current";
-import { useLogout } from "../api/use-logout";
 import { Link, Loader } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import QRCode from "react-qr-code";
@@ -23,7 +22,6 @@ export const UserCard = () => {
   }
 
   const { userId, name, email, address } = data;
-  console.log(email);
 
   return (
     <section class="relative ">

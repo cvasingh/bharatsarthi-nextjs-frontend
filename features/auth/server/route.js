@@ -32,7 +32,11 @@ const app = new Hono()
     const { name, email, password } = c.req.valid("json");
 
     const { account } = await createAdminClient();
-    await account.create(ID.unique(), email, password, name);
+    try {
+      await account.create(ID.unique(), email, password, name);
+    } catch (error) {
+      return c.json({ error: error.message }, 400);
+    }
 
     const session = await account.createEmailPasswordSession(email, password);
 

@@ -12,7 +12,10 @@ export const useRegister = () => {
     mutationFn: async ({ json }) => {
       const response = await client.api.auth.register["$post"]({ json });
 
-      if (!response.ok) throw new Error("Failed to register");
+      if (!response.ok) {
+        return response.json();
+      }
+
       const response2 = await client.api.auth.addUserDetails["$post"]({ json });
       if (response2.ok) {
         toast.success("Registered successfully");
@@ -22,8 +25,14 @@ export const useRegister = () => {
         return response.json();
       }
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       //window.location.reload()
+
+      if (data.error) {
+        toast.error(data.error);
+        return;
+      }
+
       toast.success("Registered successfully");
       router.refresh();
       queryClient.invalidateQueries({ queryKey: ["current"] });
