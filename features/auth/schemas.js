@@ -13,9 +13,17 @@ export const registerSchema = z.object({
 
 export const profileSchema = z.object({
   name: z.string().trim().min(1, "Required"),
-  fullName: z.string().trim().min(1, "Required").optional(),
   email: z.string().email(),
-  phoneNumber: z.string().trim().min(1, "Required").optional(),
-  location: z.string().trim().min(1, "Required").optional(),
-  postalCode: z.string().trim().min(1, "Required").optional(),
+  age: z.string().trim().optional(),
+  phoneNumber: z.string().trim().optional(),
+  dlNumber: z.string().trim().optional(),
+  aadharNumber: z.string().trim().optional(),
+  permanentJob: z.boolean().optional(),
+  employerDetails: z.string().trim().optional(),
+  lastEmployerDetails: z.string().trim().optional(),
+  salary: z.string().trim().optional(),
+  healthInsurance: z.boolean().optional(),
+  carModel: z.string().trim().optional(),
+  pucExpiryDate: z.string().trim().optional(),
+  jobChange: z.boolean().optional(),
 });

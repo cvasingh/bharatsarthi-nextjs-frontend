@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 const SignInPage = async ({ searchParams }) => {
   const user = await getCurrent();
-  if (user) redirect(searchParams?.redirectUrl ?? "/");
+  if (user) redirect(searchParams?.redirectUrl ?? "/edit");
 
   return <SignInCard />;
 };

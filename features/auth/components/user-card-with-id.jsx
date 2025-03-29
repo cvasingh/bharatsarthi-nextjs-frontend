@@ -6,7 +6,6 @@ import Link from "next/link";
 
 export const UserCardWithId = ({ id, user }) => {
   const { data, isLoading } = useGetUserById(id);
-  console.log({ data, user });
 
   if (isLoading) {
     return (

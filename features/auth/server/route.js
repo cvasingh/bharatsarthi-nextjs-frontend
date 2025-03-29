@@ -75,8 +75,7 @@ const app = new Hono()
     sessionMiddleware,
     zValidator("json", profileSchema),
     async (c) => {
-      const { name, fullName, email, phoneNumber, location, postalCode } =
-        c.req.valid("json");
+      const { name, email, phoneNumber } = c.req.valid("json");
       const user = c.get("user");
 
       if (!user) {
@@ -92,11 +91,8 @@ const app = new Hono()
         {
           userId: user.$id,
           name,
-          fullName,
           email,
           phoneNumber,
-          location,
-          postalCode,
         }
       );
 
@@ -132,7 +128,8 @@ const app = new Hono()
         process.env.NEXT_PUBLIC_APPWRITE_USER_DETAILS_ID,
         id
       );
-      const isAdmin = user?.labels?.[0] === "admin";
+      const isAdmin =
+        user?.labels?.[0] === "admin" || user?.["$id"] === data.userId;
 
       if (data && isAdmin) {
         return c.json({ data });
@@ -154,8 +151,22 @@ const app = new Hono()
     sessionMiddleware,
     zValidator("json", profileSchema),
     async (c) => {
-      const { name, fullName, email, phoneNumber, location, postalCode } =
-        c.req.valid("json");
+      const {
+        name,
+        email,
+        age,
+        phoneNumber,
+        dlNumber,
+        aadharNumber,
+        permanentJob,
+        employerDetails,
+        lastEmployerDetails,
+        salary,
+        healthInsurance,
+        carModel,
+        pucExpiryDate,
+        jobChange,
+      } = c.req.valid("json");
       const user = c.get("user");
 
       if (!user) {
@@ -170,11 +181,19 @@ const app = new Hono()
         user.$id,
         {
           name,
-          fullName,
           email,
+          age,
           phoneNumber,
-          location,
-          postalCode,
+          dlNumber,
+          aadharNumber,
+          permanentJob,
+          employerDetails,
+          lastEmployerDetails,
+          salary,
+          healthInsurance,
+          carModel,
+          pucExpiryDate,
+          jobChange,
         }
       );
 
