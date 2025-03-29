@@ -1,10 +1,11 @@
 "use client";
 
 import { useCurrent } from "../api/use-current";
-import { Link, Loader } from "lucide-react";
+import { Edit, Loader } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import QRCode from "react-qr-code";
 import DottedSeparator from "@/components/dotted-separator";
+import Link from "next/link";
 
 export const UserCard = () => {
   const { data, isLoading } = useCurrent();
@@ -36,7 +37,7 @@ export const UserCard = () => {
       <div className="p-7">
         <DottedSeparator />
       </div>
-      <div class="w-full max-w-7xl mx-auto px-6 md:px-8">
+      <div class="flex justify-between w-full max-w-7xl mx-auto px-6 md:px-8">
         <div class="block">
           <h3 class="font-manrope font-bold text-4xl text-gray-900 mb-1 max-sm:text-center">
             {name || "User"}
