@@ -1,8 +1,6 @@
 "use client";
 
-import { useLogout } from "../api/use-logout";
 import { Edit, Loader } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useGetUserById } from "../api/use-get-user-by-id";
 import Link from "next/link";
 
@@ -39,7 +37,7 @@ export const UserCardWithId = ({ id, user }) => {
               </p>
             )}
           </div>
-          {user?.["$id"] === data?.userId && (
+          {user?.["$id"] === userId && (
             <Link href="/edit">
               <Edit className="size-6 text-muted-foreground" />
             </Link>
