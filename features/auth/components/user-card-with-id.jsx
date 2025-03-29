@@ -19,22 +19,33 @@ export const UserCardWithId = ({ id, user }) => {
     return null;
   }
 
-  const { userId, name, email, address } = data;
+  const {
+    userId,
+    name,
+    email,
+    age,
+    gender,
+    phone,
+    dlNumber,
+    aadharNumber,
+    permanentJob,
+    employerDetails,
+    lastEmployer,
+    salary,
+    healthInsurance,
+    carModel,
+    pucExpiryDate,
+    lookingForJobChange,
+  } = data;
 
   return (
-    <section class="relative pt-20 pb-24">
-      <div class="w-full max-w-7xl mx-auto px-6 md:px-8">
-        <div class="flex items-center justify-center flex-col sm:flex-row max-sm:gap-5 sm:justify-between mb-5">
-          <div class="block">
-            <h3 class="font-manrope font-bold text-4xl text-gray-900 mb-1 max-sm:text-center">
+    <section className="relative pt-20 pb-24">
+      <div className="w-full max-w-7xl mx-auto px-6 md:px-8">
+        <div className="flex items-center justify-center flex-col sm:flex-row max-sm:gap-5 sm:justify-between mb-5">
+          <div>
+            <h3 className="font-bold text-4xl text-gray-900 mb-1 text-center">
               {name || "User"}
             </h3>
-            {address && (
-              <p class="font-normal text-base leading-7 text-gray-500  max-sm:text-center">
-                Engineer at BB Agency Industry <br class="hidden sm:block" />
-                New York, United States
-              </p>
-            )}
           </div>
           {user?.["$id"] === userId && (
             <Link href="/edit">
@@ -42,7 +53,8 @@ export const UserCardWithId = ({ id, user }) => {
             </Link>
           )}
         </div>
-        <div class="flex items-center justify-center flex-col sm:flex-row max-sm:gap-5 sm:justify-between mb-5">
+
+        <div className="mb-8 flex items-center justify-center flex-col sm:flex-row max-sm:gap-5 sm:justify-between ">
           {email && (
             <Link
               href={`mailto:${email}`}
@@ -68,7 +80,40 @@ export const UserCardWithId = ({ id, user }) => {
             </Link>
           )}
         </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <InfoField label="Age" value={age} />
+          <InfoField label="Gender" value={gender} />
+          <InfoField label="Phone" value={phone} />
+          <InfoField label="DL Number" value={dlNumber} />
+          <InfoField label="Aadhar Number" value={aadharNumber} />
+          <InfoField
+            label="Permanent Job"
+            value={permanentJob ? "Yes" : "No"}
+          />
+          {permanentJob && (
+            <InfoField label="Employer Details" value={employerDetails} />
+          )}
+          <InfoField label="Last Employer" value={lastEmployer} />
+          <InfoField label="Salary" value={salary} />
+          <InfoField
+            label="Health Insurance"
+            value={healthInsurance ? "Yes" : "No"}
+          />
+          <InfoField label="Car Model" value={carModel} />
+          <InfoField label="PUC Expiry Date" value={pucExpiryDate} />
+          <InfoField
+            label="Looking for Job Change"
+            value={lookingForJobChange ? "Yes" : "No"}
+          />
+        </div>
       </div>
     </section>
   );
 };
+
+const InfoField = ({ label, value }) =>
+  value ? (
+    <div className="bg-gray-100 p-3 rounded-lg">
+      <strong>{label}:</strong> {value}
+    </div>
+  ) : null;
