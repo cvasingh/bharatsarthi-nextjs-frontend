@@ -23,24 +23,25 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { registerSchema } from "../schemas";
-import { useRegister } from "../api/use-register";
-import { signUpWithGithub, signUpWithGoogle } from "@/lib/oauth";
+import { profileSchema } from "../schemas";
 import QRCode from "react-qr-code";
+import { useUpdateDetails } from "../api/use-update-details";
 
 export const EditForm = ({ user }) => {
-  const { mutate, isPending } = useRegister();
-  console.log(user);
+  const { mutate, isPending } = useUpdateDetails();
 
   const form = useForm({
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(profileSchema),
     defaultValues: {
       name: user?.name ?? "",
       email: user?.email ?? "",
     },
   });
+  console.log(form.formState.errors);
 
   const onSubmit = (values) => {
+    alert("Updated Successfully");
+    console.log(values);
     mutate({ json: values });
   };
 
@@ -53,14 +54,15 @@ export const EditForm = ({ user }) => {
         />
         <p className="text-xs font-bold mt-2 text-center">Your QR Code</p>
       </div>
+      <div className="px-7 mb-2">
+        <DottedSeparator />
+      </div>
       <Card className="w-full h-full md:w-[487px] border-none shadow-none mx-auto">
         <CardHeader className="flex flex-col gap-4 items-center justify-center text-center px-7">
-          <CardTitle className="text-xl">User Details</CardTitle>
+          <CardTitle className="text-xl">Update Your Details</CardTitle>
           <CardDescription></CardDescription>
         </CardHeader>
-        <div className="px-7 mb-2">
-          <DottedSeparator />
-        </div>
+
         <CardContent className="px-7">
           <Form {...form}>
             <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
@@ -96,7 +98,7 @@ export const EditForm = ({ user }) => {
                   </FormItem>
                 )}
               />
-              <FormField
+              {/* <FormField
                 name="details"
                 control={form.control}
                 render={({ field }) => (
@@ -111,7 +113,7 @@ export const EditForm = ({ user }) => {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
               <Button disabled={isPending} size="lg" className="w-full">
                 Update
               </Button>

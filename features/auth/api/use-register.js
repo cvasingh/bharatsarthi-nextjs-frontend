@@ -14,8 +14,13 @@ export const useRegister = () => {
 
       if (!response.ok) throw new Error("Failed to register");
       const response2 = await client.api.auth.addUserDetails["$post"]({ json });
-
-      return response.json();
+      if (response2.ok) {
+        toast.success("Registered successfully");
+        return response.json();
+      } else {
+        const response = await client.api.auth.delete["$delete"]({ json });
+        return response.json();
+      }
     },
     onSuccess: () => {
       //window.location.reload()

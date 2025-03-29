@@ -54,6 +54,18 @@ const app = new Hono()
 
     return c.json({ success: true });
   })
+  .delete("/delete", sessionMiddleware, async (c) => {
+    const { account } = await createAdminClient();
+    const user = c.get("user");
+
+    if (!user) {
+      return c.json({ error: "Unauthorized" }, 401);
+    }
+
+    await account.deleteIdentity(user.$id);
+
+    return c.json({ success: true });
+  })
   .post(
     "/addUserDetails",
     sessionMiddleware,
@@ -61,18 +73,20 @@ const app = new Hono()
     async (c) => {
       const { name, fullName, email, phoneNumber, location, postalCode } =
         c.req.valid("json");
-      const databases = c.get("databases");
       const user = c.get("user");
 
       if (!user) {
         return c.json({ error: "Unauthorized" }, 401);
       }
 
+      const { databases } = await createAdminClient();
+
       await databases.createDocument(
-        process.env.APPWRITE_DATABASE_ID,
+        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
         process.env.NEXT_PUBLIC_APPWRITE_USER_DETAILS_ID,
         user.$id,
         {
+          userId: user.$id,
           name,
           fullName,
           email,
@@ -85,7 +99,7 @@ const app = new Hono()
       return c.json({ success: true });
     }
   )
-  .get("/getUserDetails/:id", sessionMiddleware, async (c) => {
+  .get("/getUserById/:id", sessionMiddleware, async (c) => {
     const { id } = c.req.param();
     const user = c.get("user");
 
@@ -109,14 +123,17 @@ const app = new Hono()
 
     try {
       // Fetch user profile data from the database using the user ID
-      const userProfile = await databases.getDocument(
-        process.env.APPWRITE_DATABASE_ID,
+      const data = await databases.getDocument(
+        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
         process.env.NEXT_PUBLIC_APPWRITE_USER_DETAILS_ID,
         id
       );
+      const isAdmin = user?.labels?.[0] === "admin";
 
-      if (userProfile) {
-        return c.json({ username: userProfile.name });
+      if (data && isAdmin) {
+        return c.json({ data });
+      } else if (data) {
+        return c.json({ data: { name: data.name } });
       } else {
         return c.json({ error: "User not found" }, 404);
       }
@@ -127,6 +144,38 @@ const app = new Hono()
         500
       );
     }
-  });
+  })
+  .post(
+    "/updateDetails",
+    sessionMiddleware,
+    zValidator("json", profileSchema),
+    async (c) => {
+      const { name, fullName, email, phoneNumber, location, postalCode } =
+        c.req.valid("json");
+      const user = c.get("user");
+
+      if (!user) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
+
+      const { databases } = await createAdminClient();
+
+      await databases.updateDocument(
+        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+        process.env.NEXT_PUBLIC_APPWRITE_USER_DETAILS_ID,
+        user.$id,
+        {
+          name,
+          fullName,
+          email,
+          phoneNumber,
+          location,
+          postalCode,
+        }
+      );
+
+      return c.json({ success: true });
+    }
+  );
 
 export default app;

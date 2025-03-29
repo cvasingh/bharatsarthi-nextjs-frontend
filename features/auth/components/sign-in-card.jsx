@@ -37,11 +37,11 @@ export const SignInCard = () => {
   };
 
   return (
-    <Card className="w-full h-full md:w-[487px] border-none shadow-none">
+    <Card className="w-full h-full md:w-[487px] border-none shadow-none gap-0">
       <CardHeader className="flex items-center justify-center text-center p-7">
         <CardTitle className="text-2xl">Welcome Back!</CardTitle>
       </CardHeader>
-      <div className="px-7 mb-2">
+      <div className="px-7 ">
         <DottedSeparator />
       </div>
       <CardContent className="p-7">
@@ -84,31 +84,6 @@ export const SignInCard = () => {
             </Button>
           </form>
         </Form>
-      </CardContent>
-      <div className="px-7">
-        <DottedSeparator />
-      </div>
-      <CardContent className="p-7 flex flex-col gap-y-4">
-        <Button
-          onClick={() => signUpWithGoogle()}
-          disabled={isPending}
-          variant="secondary"
-          size="lg"
-          className="w-full"
-        >
-          <FcGoogle className="mr-2 size-5" />
-          Login with Google
-        </Button>
-        <Button
-          onClick={() => signUpWithGithub()}
-          disabled={isPending}
-          variant="secondary"
-          size="lg"
-          className="w-full"
-        >
-          <FaGithub className="mr-2 size-5" />
-          Login with Github
-        </Button>
       </CardContent>
       <div className="px-7">
         <DottedSeparator />
