@@ -21,7 +21,8 @@ export const UserCard = () => {
     return null;
   }
 
-  const { userId, name, email, address } = data;
+  const { name, email, address } = data;
+  const userId = data?.["$id"];
 
   return (
     <section class="relative ">
